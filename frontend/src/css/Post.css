@@ -1,0 +1,7 @@
+li.no-border {
+	border-bottom: none !important;
+}
+
+.nolinkcolor {
+	text-decoration: none;
+}
