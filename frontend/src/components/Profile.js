@@ -1,22 +1,44 @@
 import { Link } from 'react-router-dom';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import '../css/Post.css';
 import Menu from './Menu';
 import Navbar from './Navbar';
+import axios from 'axios';
 const Profile = () => {
 	let userName = 'dapper developer';
 	let userLocation = 'Kampala II Rd., Kampala';
 	let [ editUserDetails, setEditUserDetails ] = useState(false);
 	let userPhone = [ '0700-123-456', false, '0777-987-654', true ];
-	let userDonations = [
+	let [ userDonations, setUserDonations ] = useState([
 		[ `Kid's coloring books`, `Oranges (6)`, `Hugs`, `Blender` ],
 		[ `Dancing shoes`, `Soap`, `old working Printer`, `5x6 duvet` ]
-	];
-	let userReqests = [
+	]);
+	let [ userRequests, setUserRequests ] = useState([
 		[ `Walking partner`, `laptop repair (Windows)` ],
 		[ `Homeschool teacher` ],
 		[ `potted plants advice`, `teach me knitting`, `jogging partner` ]
-	];
+	]);
+	useEffect(
+		//This logic should be done BEFORE page render but is currently not the case.
+		() => {
+			console.log(userDonations, userRequests);
+			axios.get('http://localhost:3001/posts').then((res) =>
+				res.data.forEach((arr) => {
+					if (arr.type === 'Donation') {
+						userDonations.push(arr.items);
+						console.log('don added', arr.items);
+					} else {
+						userRequests.push(arr.items);
+						console.log('req added', arr.items);
+					}
+				})
+			);
+			setUserDonations(userDonations);
+			setUserRequests(userRequests);
+			console.log(userDonations, userRequests);
+		},
+		[ userDonations, userRequests ]
+	);
 	console.log('Profile loaded!');
 	let handleEditToggle = () => {
 		editUserDetails ? setEditUserDetails(false) : setEditUserDetails(true);
@@ -36,8 +58,8 @@ const Profile = () => {
 			</Link>
 		</li>
 	));
-	let userRequestsList = userReqests.map((request) => (
-		<li key={userReqests.indexOf(request)} className="list-group-item no-border">
+	let userRequestsList = userRequests.map((request) => (
+		<li key={userRequests.indexOf(request)} className="list-group-item no-border">
 			<div className="card btn">
 				{/* <i className="bi bi-arrow-down-left-circle" /> */}
 				<span className="mx-2">
@@ -46,6 +68,7 @@ const Profile = () => {
 					{request.length - 1 > 1 && `${request.length - 1} other items.`}
 				</span>
 				{/* <i className=" bi bi-x-circle-fill mx-3 " onClick={() => console.log(request)} /> */}
+				{console.log('req list generated')}
 			</div>
 		</li>
 	));

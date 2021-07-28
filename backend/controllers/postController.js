@@ -19,4 +19,24 @@ const createPost = async (req, res) => {
 	}
 };
 
-module.exports = { getPosts, createPost };
+const deletePost = async (req, res) => {
+	try {
+		await postModel.findByIdAndRemove(req.params.post_id);
+		res.send('Successfully Deleted');
+	} catch (error) {
+		console.log(error);
+	}
+	// console.log('dummy delete_', req.params.post_id);
+};
+
+const updatePost = async (req, res) => {
+	try {
+		await postModel.findByIdAndUpdate(req.params.post_id, req.body);
+		res.send('Successfully Updated');
+	} catch (error) {
+		console.log(error);
+	}
+	// console.log('dummy update_', req.params.post_id, req.body);
+};
+
+module.exports = { getPosts, createPost, deletePost, updatePost };
