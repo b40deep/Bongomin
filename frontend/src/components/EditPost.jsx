@@ -1,6 +1,5 @@
 import Navbar from './Navbar';
 import Menu from './Menu';
-import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import '../css/Post.css';
 import axios from 'axios';
@@ -31,8 +30,8 @@ const EditPost = () => {
 			setUserItems(temp);
 			//axios put to edit a particular items array and update at selected index.
 			axios.put(`http://localhost:3001/posts/${post_id}`, { items: userItems }).then((res) => console.log(res));
+			console.log(`...updating ${post_id}...`, userItems);
 		}
-		console.log(`...updating ${post_id}...`, userItems);
 	}
 	function deletePost() {
 		axios.delete(`http://localhost:3001/posts/${post_id}`).then((res) => console.log(res));

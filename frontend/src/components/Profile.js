@@ -21,21 +21,23 @@ const Profile = () => {
 	useEffect(
 		//This logic should be done BEFORE page render but is currently not the case.
 		() => {
-			console.log(userDonations, userRequests);
+			let tempDonations = [];
+			console.log(userDonations);
 			axios.get('http://localhost:3001/posts').then((res) =>
 				res.data.forEach((arr) => {
 					if (arr.type === 'Donation') {
-						userDonations.push(arr.items);
-						console.log('don added', arr.items);
+						Object.values(arr.items).map((val) => tempDonations.push(val));
+						console.log('don added', tempDonations);
 					} else {
 						userRequests.push(arr.items);
 						console.log('req added', arr.items);
 					}
 				})
 			);
+
 			setUserDonations(userDonations);
 			setUserRequests(userRequests);
-			console.log(userDonations, userRequests);
+			console.log(userDonations);
 		},
 		[ userDonations, userRequests ]
 	);
