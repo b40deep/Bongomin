@@ -1,16 +1,20 @@
 import Navbar from './Navbar';
 import Menu from './Menu';
 import { useState } from 'react';
-// import { Link } from 'react-router-dom';
-import '../css/Post.css';
 import axios from 'axios';
+import '../css/Post.css';
 
-const Login = () => {
-	let [ userDets, setUserDets ] = useState({ nickname: '', pin: '' });
+const Signup = () => {
+	let [ userDets, setUserDets ] = useState({ nickname: '', phone: '', pin: '', location: '' });
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		e.target.name === 'nickname' &&
+			setUserDets((userDets) => ({
+				...userDets,
+				[e.target.name]: e.target.value
+			}));
+		e.target.name === 'phone' &&
 			setUserDets((userDets) => ({
 				...userDets,
 				[e.target.name]: e.target.value
@@ -20,11 +24,18 @@ const Login = () => {
 				...userDets,
 				[e.target.name]: e.target.value
 			}));
+		e.target.name === 'location' &&
+			setUserDets((userDets) => ({
+				...userDets,
+				[e.target.name]: e.target.value
+			}));
 		console.log(userDets);
 	};
 
-	const handleLogin = () => {
-		axios.post('http://localhost:3001/users/login', userDets).then((res) => console.log(res));
+	const handleSignup = () => {
+		axios
+			.post('http://localhost:3001/users/signup', userDets)
+			.then((res) => (res.status === 201 ? window.location.replace('/') : console.log('Please try again')));
 		// .then((res) => (res.data === 'Success' ? window.location.replace('/') : console.log('Please try again')));
 	};
 
@@ -45,8 +56,18 @@ const Login = () => {
 									onChange={handleSubmit}
 								/>
 							</div>
+							<div className="form-outline mb-4 mt-3">
+								<input
+									type="text"
+									id="formPhone"
+									className="form-control "
+									placeholder="phone number"
+									name="phone"
+									onChange={handleSubmit}
+								/>
+							</div>
 
-							<div className="form-outline mb-4">
+							<div className="form-outline mb-4 mb-3">
 								<input
 									type="text"
 									id="formPin"
@@ -59,18 +80,37 @@ const Login = () => {
                                 Password
                             </label>} */}
 							</div>
+							<div className="form-outline mb-4 mt-3 row">
+								<div className="col input-group">
+									<input
+										type="text"
+										id="formLocation"
+										className="form-control "
+										placeholder="location"
+										name="location"
+										onChange={handleSubmit}
+									/>
+									<div
+										className=" btn btn-outline-secondary input-group-text"
+										onClick={() => console.log('loading map...')}
+									>
+										click for map
+									</div>
+								</div>
+							</div>
+
 							{/* <Link to="/" className="nolinkcolor"> */}
 							<div className="col-auto mt-3 d-grid">
-								<button type="button" className="btn btn-secondary" name="submit" onClick={handleLogin}>
+								<button
+									type="button"
+									className="btn btn-secondary"
+									name="submit"
+									onClick={handleSignup}
+								>
 									Log in
 								</button>
 							</div>
 							{/* </Link> */}
-							<div className="form-outline mb-3 mt-3">
-								<a className="nolinkcolor" href="/signup">
-									New here? sign up!
-								</a>
-							</div>
 						</form>
 					</div>
 				</div>
@@ -80,4 +120,4 @@ const Login = () => {
 	);
 };
 
-export default Login;
+export default Signup;

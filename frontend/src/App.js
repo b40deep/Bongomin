@@ -4,6 +4,7 @@ import Profile from './components/Profile';
 import Home from './components/Home';
 import Gallery from './components/Gallery';
 import Login from './components/Login';
+import Signup from './components/Signup';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import CreatePost from './components/CreatePost';
 import EditPost from './components/EditPost';
@@ -16,6 +17,7 @@ function App() {
 				<Route path="/gallery" element={<Gallery />} />
 				<Route path="/profile" element={<Profile />} />
 				<Route path="/login" element={<Login />} />
+				<Route path="/signup" element={<Signup />} />
 				<Route path="/createpost" element={<CreatePost />} />
 				<Route path="/editpost" element={<EditPost />} />
 			</Routes>
