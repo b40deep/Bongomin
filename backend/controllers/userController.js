@@ -21,58 +21,33 @@ const createUser = async (req, res) => {
 
 const loginUser = async (req, res) => {
 	let userFound = false;
-
-	await userModel.find({ nickname: req.body.nickname }, (err, res) => {
+	// console.log(req.body.nickname, req.body);
+	await userModel.find({ nickname: req.body.nickname }, (err, resp) => {
 		if (err) {
-			console.log(err);
-			return 'Server error';
+			// console.log(err);
+			return res.json({ response: 'Server error' });
 		} else {
 			//RES.PIN IS NOT WORKING - RETURNS UNDEFINED
-			console.log(res, req.body.pin, res.pin);
-
-			if (res.pin === req.body.pin) {
-				console.log(`${req.body.nickname} Login successful`);
+			// console.log(resp);
+			if (resp != '') {
+				if (resp[0].pin === req.body.pin) {
+					// console.log(`${req.body.nickname} Login successful`);
+					return res.json({ response: 'loginSuccess' });
+				} else {
+					// console.log('Login failed');
+					return res.json({ response: 'loginFailure' });
+				}
 			} else {
-				console.log('Login failed');
+				return res.json({ response: 'noUser' });
 			}
 		}
 	});
-
-	// try {
-	// 	await userModel.exists({ nickname: req.body.nickname }, (err, res) => {
-	// 		if (err) {
-	// 			res.status(500).send('Server error');
-	// 			console.log(err);
-	// 		} else {
-	// 			console.log(res);
-	// 			if (!res) {
-	// 				console.log('User not found');
-	// 				res.send(200);
-	// 			} else {
-	// 				userModel.find({ nickname: req.body.nickname }, (err, res) => {
-	// 					if (err) {
-	// 						res.status(500).send('Server error');
-	// 						console.log(err);
-	// 					} else {
-	// 						if (res.pin === req.body.pin) {
-	// 							res.status(200).send(`${req.body.nickname} Login successful`);
-	// 						} else {
-	// 							res.status(500).send('Login failed');
-	// 						}
-	// 					}
-	// 				});
-	// 			}
-	// 		}
-	// 	});
-	// } catch (error) {
-	// 	res.status(500).send('Server error');
-	// }
 };
 
 const deleteUser = async (req, res) => {
 	try {
 		await userModel.findByIdAndRemove(req.params._id);
-		res.send('Successfully Deleted');
+		return res.json({ response: 'Successfully Deleted' });
 	} catch (error) {
 		console.log(error);
 	}
@@ -82,7 +57,7 @@ const deleteUser = async (req, res) => {
 const updateUser = async (req, res) => {
 	try {
 		await userModel.findByIdAndUpdate(req.params._id, req.body);
-		res.send('Successfully Updated');
+		return res.json({ response: 'Successfully Updated' });
 	} catch (error) {
 		console.log(error);
 	}

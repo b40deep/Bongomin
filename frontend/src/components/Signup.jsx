@@ -107,7 +107,7 @@ const Signup = () => {
 									name="submit"
 									onClick={handleSignup}
 								>
-									Log in
+									Create account
 								</button>
 							</div>
 							{/* </Link> */}

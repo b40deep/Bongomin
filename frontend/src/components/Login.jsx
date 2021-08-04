@@ -24,8 +24,16 @@ const Login = () => {
 	};
 
 	const handleLogin = () => {
-		axios.post('http://localhost:3001/users/login', userDets).then((res) => console.log(res));
-		// .then((res) => (res.data === 'Success' ? window.location.replace('/') : console.log('Please try again')));
+		axios
+			.post('http://localhost:3001/users/login', userDets)
+			.then(
+				(res) =>
+					res.data.response === 'loginSuccess'
+						? window.location.replace('/')
+						: res.data.response === 'loginFailure'
+							? console.log('Wrong password')
+							: console.log('User not found')
+			);
 	};
 
 	return (
