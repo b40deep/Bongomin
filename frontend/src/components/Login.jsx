@@ -8,24 +8,29 @@ import axios from 'axios';
 const Login = () => {
 	let [ userDets, setUserDets ] = useState({ nickname: '', pin: '' });
 
-	const handleSubmit = (e) => {
+	const handleInput = (e) => {
 		e.preventDefault();
+
 		e.target.name === 'nickname' &&
 			setUserDets((userDets) => ({
 				...userDets,
-				[e.target.name]: e.target.value
+				[e.target.name]: e.target.value.trim()
 			}));
 		e.target.name === 'pin' &&
 			setUserDets((userDets) => ({
 				...userDets,
-				[e.target.name]: e.target.value
+				[e.target.name]: e.target.value.trim()
 			}));
 		console.log(userDets);
 	};
 
 	const handleLogin = () => {
+		//check for clean text
+		let _nickname = userDets['nickname'];
+		let _pin = userDets['pin'];
+		_nickname.length < 3 || _pin.length !== 4 ? console.log('dirty inputs') : console.log('clean inputs');
 		axios
-			.post('http://localhost:3001/users/login', userDets)
+			.post('http://localhost:3001/users/login', { nickname: _nickname, pin: _pin })
 			.then(
 				(res) =>
 					res.data.response === 'loginSuccess'
@@ -50,7 +55,8 @@ const Login = () => {
 									className="form-control "
 									placeholder="nickname"
 									name="nickname"
-									onChange={handleSubmit}
+									value={userDets['nickname']}
+									onChange={handleInput}
 								/>
 							</div>
 
@@ -61,7 +67,8 @@ const Login = () => {
 									className="form-control "
 									placeholder="4-digit pin"
 									name="pin"
-									onChange={handleSubmit}
+									value={userDets['pin']}
+									onChange={handleInput}
 								/>
 								{/* {                    <label className="form-label" htmlFor="form3Example4">
                                 Password
