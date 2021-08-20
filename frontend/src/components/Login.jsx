@@ -35,7 +35,7 @@ const Login = () => {
 				(res) =>
 					res.data.response === 'loginSuccess'
 						? window.location.replace('/')
-						: res.data.response === 'loginFailure'
+						: res.data.response === 'loginDenied'
 							? console.log('Wrong password')
 							: console.log('User not found')
 			);
@@ -81,6 +81,11 @@ const Login = () => {
 								</button>
 							</div>
 							{/* </Link> */}
+							<div className="form-outline mb-3 mt-3">
+								<a className="nolinkcolor" href="/resetpin">
+									Forgot your PIN? reset it!
+								</a>
+							</div>
 							<div className="form-outline mb-3 mt-3">
 								<a className="nolinkcolor" href="/signup">
 									New here? sign up!

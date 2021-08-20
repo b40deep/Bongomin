@@ -1,5 +1,5 @@
 const userModel = require('../models/userModel');
-
+const bcrypt = require('bcrypt');
 const getUsers = async (req, res) => {
 	try {
 		const allUsers = await userModel.find();
@@ -11,7 +11,14 @@ const getUsers = async (req, res) => {
 
 const createUser = async (req, res) => {
 	try {
-		const newUser = new userModel(req.body);
+		const hashedPin = await bcrypt.hash(req.body.pin, 10);
+		const newUser = new userModel({
+			nickname: req.body.nickname,
+			phone: req.body.phone,
+			pin: hashedPin,
+			location: req.body.location
+		});
+		// console.log(newUser);
 		await newUser.save();
 		res.status(201).json(newUser);
 	} catch (error) {
@@ -20,28 +27,29 @@ const createUser = async (req, res) => {
 };
 
 const loginUser = async (req, res) => {
-	let userFound = false;
+	let user = null;
 	// console.log(req.body.nickname, req.body);
 	await userModel.find({ nickname: req.body.nickname }, (err, resp) => {
 		if (err) {
 			// console.log(err);
 			return res.json({ response: 'Server error' });
 		} else {
-			//RES.PIN IS NOT WORKING - RETURNS UNDEFINED
-			// console.log(resp);
-			if (resp != '') {
-				if (resp[0].pin === req.body.pin) {
-					// console.log(`${req.body.nickname} Login successful`);
-					return res.json({ response: 'loginSuccess' });
-				} else {
-					// console.log('Login failed');
-					return res.json({ response: 'loginFailure' });
-				}
-			} else {
-				return res.json({ response: 'noUser' });
-			}
+			user = resp[0];
 		}
 	});
+
+	// console.log(user);
+	if (user != '') {
+		try {
+			(await bcrypt.compare(req.body.pin, user.pin))
+				? res.json({ response: 'loginSuccess' })
+				: res.json({ response: 'loginDenied' });
+		} catch (error) {
+			return res.json({ response: 'Server Error' });
+		}
+	} else {
+		return res.json({ response: 'noUser' });
+	}
 };
 
 const deleteUser = async (req, res) => {

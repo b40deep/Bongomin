@@ -5,6 +5,7 @@ const Post = () => {
 	let imageUrl = 'https://picsum.photos/540/320?grayscale&random=' + Math.round(Math.random() * (19 - 10) + 1);
 	let userLocation = 'Mutesa II Rd., Ntinda';
 	let isItDonation = false;
+	let internetOn = false;
 
 	let userReqests1 = [ `Walking partner`, `laptop repair (Windows)`, `Homeschool teacher` ];
 	// let userReqests2 = [ `potted plants advice`, `teach me knitting`, `jogging partner` ];
@@ -50,7 +51,7 @@ const Post = () => {
 					{!isItDonation && 'Request'} from {userLocation}.
 				</span>
 			</div>
-			<img src={imageUrl} className="card-img-top" alt="S/O to Lorem Picsum" />
+			{internetOn ? <img src={imageUrl} className="card-img-top" alt="S/O to Lorem Picsum" /> : null}
 			{isOpened && (
 				<span className="list-group-item  no-border">
 					<i className="bi bi-arrow-right-square" />
@@ -58,7 +59,6 @@ const Post = () => {
 				</span>
 			)}
 			<ul className="list-group list-group-flush">{userReqestsList}</ul>
-
 			<div className="d-grid">
 				{helpWith.length > 0 && (
 					<button className="btn btn-outline-secondary fst-italic " type="button">

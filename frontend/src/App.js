@@ -8,6 +8,7 @@ import Signup from './components/Signup';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import CreatePost from './components/CreatePost';
 import EditPost from './components/EditPost';
+import ResetPin from './components/ResetPin';
 
 function App() {
 	return (
@@ -20,6 +21,7 @@ function App() {
 				<Route path="/signup" element={<Signup />} />
 				<Route path="/createpost" element={<CreatePost />} />
 				<Route path="/editpost" element={<EditPost />} />
+				<Route path="/resetpin" element={<ResetPin />} />
 			</Routes>
 		</BrowserRouter>
 	);
