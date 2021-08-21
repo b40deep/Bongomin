@@ -20,6 +20,7 @@ const options = (cors.CorsOptions = { origin: allowedOrigins });
 const postRouter = require('./routes/postRouter.js');
 const userRouter = require('./routes/userRouter.js');
 app.use(cors(options));
+app.use(express.json());
 app.use(bodyParser.json({ limit: '10mb', extended: true }));
 app.use(bodyParser.urlencoded({ limit: '10mb', extended: true }));
 

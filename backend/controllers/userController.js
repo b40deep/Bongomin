@@ -1,5 +1,8 @@
+require('dotenv').config();
 const userModel = require('../models/userModel');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+
 const getUsers = async (req, res) => {
 	try {
 		const allUsers = await userModel.find();
@@ -27,9 +30,13 @@ const createUser = async (req, res) => {
 };
 
 const loginUser = async (req, res) => {
+	// console.log(`from login is ${req.headers.authorization}`);
+
 	let user = null;
+	let pinMatch = false;
 	// console.log(req.body.nickname, req.body);
 	await userModel.find({ nickname: req.body.nickname }, (err, resp) => {
+		// console.log(resp);
 		if (err) {
 			// console.log(err);
 			return res.json({ response: 'Server error' });
@@ -41,9 +48,15 @@ const loginUser = async (req, res) => {
 	// console.log(user);
 	if (user != '') {
 		try {
-			(await bcrypt.compare(req.body.pin, user.pin))
-				? res.json({ response: 'loginSuccess' })
-				: res.json({ response: 'loginDenied' });
+			pinMatch = await bcrypt.compare(req.body.pin, user.pin);
+			//implement jwt if pins match
+			if (!pinMatch) {
+				res.json({ response: 'loginDenied' });
+			} else {
+				// console.log(user);
+				const accessToken = jwt.sign({ user: user.nickname }, process.env.ACCESS_TOKEN_SECRET);
+				return res.json({ response: 'loginSuccess', token: accessToken });
+			}
 		} catch (error) {
 			return res.json({ response: 'Server Error' });
 		}
@@ -72,4 +85,13 @@ const updateUser = async (req, res) => {
 	// console.log('dummy update_', req.params.User_id, req.body);
 };
 
-module.exports = { getUsers, loginUser, createUser, deleteUser, updateUser };
+//authenticating the JWT Tokens
+const authenticateToken = (req, res, next) => {
+	// const authHeader = req.headers['authorization'];
+	console.log(`from auth is ${req.headers.authorization}`);
+	console.log(`from auth is ${req.headers['authorization']}`);
+	// return res.json(req);
+	// next();
+};
+
+module.exports = { getUsers, loginUser, createUser, deleteUser, updateUser, authenticateToken };

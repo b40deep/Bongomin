@@ -4,6 +4,7 @@ import { useState } from 'react';
 // import { Link } from 'react-router-dom';
 import '../css/Post.css';
 import axios from 'axios';
+import utils from '../utils/Utils.js';
 
 const Login = () => {
 	let [ userDets, setUserDets ] = useState({ nickname: '', pin: '' });
@@ -31,14 +32,30 @@ const Login = () => {
 		_nickname.length < 3 || _pin.length !== 4 ? console.log('dirty inputs') : console.log('clean inputs');
 		axios
 			.post('http://localhost:3001/users/login', { nickname: _nickname, pin: _pin })
-			.then(
-				(res) =>
-					res.data.response === 'loginSuccess'
-						? window.location.replace('/')
-						: res.data.response === 'loginDenied'
-							? console.log('Wrong password')
-							: console.log('User not found')
-			);
+			.then((res) => {
+				console.log(res.data);
+				switch (res.data.response) {
+					case 'loginSuccess':
+						// console.log(res.data.token);
+						utils.saveToken(res.data.token);
+						// console.log('utils returned ', utils.getCookie('token'));
+						window.location.replace('/');
+						break;
+					case 'loginDenied':
+						console.log('Wrong password');
+						break;
+					case 'noUser':
+						console.log('User not found');
+						break;
+					case 'Server Error':
+						console.log('Server Error occured');
+						break;
+					default:
+						console.log('Some error occured');
+						break;
+				}
+			})
+			.catch((err) => console.log('Server Error'));
 	};
 
 	return (

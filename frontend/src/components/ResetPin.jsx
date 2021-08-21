@@ -1,11 +1,11 @@
 import Navbar from './Navbar';
 import Menu from './Menu';
-import { useState } from 'react';
+// import { useState } from 'react';
 import '../css/Post.css';
 // import axios from 'axios';
 
 const ResetPin = () => {
-	let [ userDets, setUserDets ] = useState({ nickname: '', pin: '' });
+	// let [ userDets, setUserDets ] = useState({ nickname: '', pin: '' });
 
 	return (
 		<div>
@@ -21,7 +21,7 @@ const ResetPin = () => {
 									className="form-control "
 									placeholder="nickname"
 									name="nickname"
-									value={userDets['nickname']}
+									// value={userDets['nickname']}
 									// onChange={handleInput}
 								/>
 							</div>
@@ -33,7 +33,7 @@ const ResetPin = () => {
 									className="form-control "
 									placeholder="4-digit pin"
 									name="pin"
-									value={userDets['pin']}
+									// value={userDets['pin']}
 									// onChange={handleInput}
 								/>
 							</div>

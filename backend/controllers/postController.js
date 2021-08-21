@@ -1,6 +1,7 @@
 const postModel = require('../models/postModel');
 
 const getPosts = async (req, res) => {
+	console.log('reached getPosts');
 	try {
 		const allPosts = await postModel.find();
 		res.status(200).json(allPosts);
