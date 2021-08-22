@@ -8,9 +8,9 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 import './css/Post.css';
 
 ReactDOM.render(
-	<React.StrictMode>
+	<React.Fragment>
 		<App />
-	</React.StrictMode>,
+	</React.Fragment>,
 	document.getElementById('root')
 );
 

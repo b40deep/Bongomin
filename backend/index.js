@@ -16,7 +16,7 @@ mongoose
 mongoose.set('useFindAndModify', false);
 const cors = require('cors');
 const allowedOrigins = [ 'http://localhost:3000', '*' ];
-const options = (cors.CorsOptions = { origin: allowedOrigins });
+const options = (cors.CorsOptions = { origin: allowedOrigins, credentials: true });
 const postRouter = require('./routes/postRouter.js');
 const userRouter = require('./routes/userRouter.js');
 app.use(cors(options));
@@ -33,6 +33,12 @@ let testList = [
 
 app.use('/posts', postRouter);
 app.use('/users', userRouter);
+
+// const userController = require('./controllers/userController.js');
+// app.use('/', userController.authenticateToken, (req, res) => {
+// 	res.setStatus(200);
+// 	// res.send('Get backend Hello World!');
+// });
 
 // app.get('/', (req, res) => {
 // 	res.json(testList);

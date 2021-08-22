@@ -5,6 +5,7 @@ const userModel = require('../models/userModel.js');
 const userRouter = express.Router();
 
 userRouter.get('/', userController.getUsers);
+userRouter.post('/', userController.authenticateUserToken);
 userRouter.post('/login', userController.loginUser);
 userRouter.post('/signup', userController.createUser);
 userRouter.delete('/:user_id', userController.deleteUser);

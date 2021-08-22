@@ -5,7 +5,7 @@ const postModel = require('../models/postModel.js');
 
 const postRouter = express.Router();
 
-postRouter.get('/', userController.authenticateToken, postController.getPosts);
+postRouter.get('/', postController.getPosts);
 postRouter.post('/', postController.createPost);
 postRouter.delete('/:post_id', postController.deletePost);
 postRouter.put('/:post_id', postController.updatePost);

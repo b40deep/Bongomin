@@ -31,7 +31,16 @@ const Login = () => {
 		let _pin = userDets['pin'];
 		_nickname.length < 3 || _pin.length !== 4 ? console.log('dirty inputs') : console.log('clean inputs');
 		axios
-			.post('http://localhost:3001/users/login', { nickname: _nickname, pin: _pin })
+			.post(
+				'http://localhost:3001/users/login',
+				{ nickname: _nickname, pin: _pin },
+				{
+					withCredentials: true,
+					headers: {
+						'Content-Type': 'application/json'
+					}
+				}
+			)
 			.then((res) => {
 				console.log(res.data);
 				switch (res.data.response) {

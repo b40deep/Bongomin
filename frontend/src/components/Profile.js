@@ -4,7 +4,10 @@ import '../css/Post.css';
 import Menu from './Menu';
 import Navbar from './Navbar';
 import axios from 'axios';
+import utils from '../utils/Utils';
 const Profile = () => {
+	utils.authenticateUserToken('profile');
+
 	let userName = 'dapper developer';
 	let userLocation = 'Kampala II Rd., Kampala';
 	let [ editUserDetails, setEditUserDetails ] = useState(false);

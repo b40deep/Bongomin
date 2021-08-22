@@ -2,8 +2,10 @@ import '../css/Post.css';
 import React from 'react';
 import Navbar from './Navbar';
 import Menu from './Menu';
+import utils from '../utils/Utils';
 
 const Gallery = () => {
+	utils.authenticateUserToken('gallery');
 	function getImageUrl() {
 		return 'https://picsum.photos/540/320?grayscale&random=' + Math.round(Math.random() * (29 - 20) + 1);
 	}
