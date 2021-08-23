@@ -177,7 +177,7 @@ const Profile = () => {
 								<div className="d-grid">
 									<h5 className="card-title mt-2">Items you're donating:</h5>
 									<ul className="list-group list-group-flush">{userDonationsList}</ul>
-									<Link to="/createpost" className="nolinkcolor">
+									<Link to="/createpost?type=d" className="nolinkcolor">
 										<div className="d-grid">
 											<button
 												className="btn btn-outline-secondary fst-italic fs-5 my-3 "
@@ -192,7 +192,7 @@ const Profile = () => {
 									<h5 className="card-title mt-3">Items you're requesting:</h5>
 									{/* list of needs dynamically*/}
 									<ul className="list-group list-group-flush">{userRequestsList}</ul>
-									<Link to="/createpost" className="nolinkcolor">
+									<Link to="/createpost?type=r" className="nolinkcolor">
 										<div className="d-grid">
 											<button
 												className="btn btn-outline-secondary fst-italic fs-5 mt-3 "

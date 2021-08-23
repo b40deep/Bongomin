@@ -6,17 +6,17 @@ const Post = () => {
 	let userLocation = 'Mutesa II Rd., Ntinda';
 	let isItDonation = false;
 	let internetOn = false;
-
 	let userReqests1 = [ `Walking partner`, `laptop repair (Windows)`, `Homeschool teacher` ];
 	// let userReqests2 = [ `potted plants advice`, `teach me knitting`, `jogging partner` ];
-
 	const [ isOpened, setIsOpened ] = useState(false);
 	const [ helpWith, setHelpWith ] = useState([]);
+
 	function loadPostDetails() {
 		setHelpWith([]);
 		setIsOpened((wasOpened) => !wasOpened);
 		console.log('extra details loaded');
 	}
+
 	let userReqestsList = !isOpened
 		? userReqests1.map((request, index) => (
 				<li className="list-group-item no-border" key={index}>

@@ -6,12 +6,24 @@ import React, { useState } from 'react';
 import axios from 'axios';
 
 const CreatePost = () => {
+	let params = new URLSearchParams(window.location.search);
+	let type = params.get('type') == null ? 'r' : params.get('type');
+	let tempType = type === 'r' ? 'REQUEST' : 'DONATION';
+	console.log(type);
 	let userName = 'SoAndSo';
 	let userLocation = 'Rich people apartments, Muyenga';
-	let isDonating = false;
-	let postType = isDonating ? 'donation' : 'request';
 	let [ newInputs, setNewInputs ] = useState([ 'input1' ]);
 	let [ newItems, setNewItems ] = useState([]);
+	let [ postType, setpostType ] = useState([ tempType ]);
+
+	let switchPostType = (e) => {
+		e.preventDefault();
+		if (postType === 'REQUEST') {
+			setpostType('DONATION');
+		} else {
+			setpostType('REQUEST');
+		}
+	};
 	let handleNewItem = (e) => {
 		e.preventDefault();
 		let temp = newItems;
@@ -55,7 +67,7 @@ const CreatePost = () => {
 						<div className="card mt-5">
 							<div className="card-header bg-white d-grid">
 								<span className="fst-italic mx-2">
-									{userName} from {userLocation} has this {postType}:
+									{postType} from {userName} of {userLocation} :
 								</span>
 							</div>
 							<div className="card-body ">
@@ -85,6 +97,14 @@ const CreatePost = () => {
 												create {postType}!
 											</button>
 										</div>
+										<div className="form-outline mb-3 mt-3">
+											<button
+												className="btn btn-sm btn-outline-secondary"
+												onClick={switchPostType}
+											>
+												I want to {postType === 'REQUEST' ? 'donate' : 'request'} instead.
+											</button>
+										</div>
 										{/* </Link> */}
 									</form>
 								</div>
@@ -94,7 +114,7 @@ const CreatePost = () => {
 					</div>
 				</div>
 			</div>
-			<Menu />{' '}
+			<Menu page="create" />{' '}
 		</div>
 	);
 };
