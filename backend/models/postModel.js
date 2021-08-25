@@ -1,8 +1,7 @@
 const mongoose = require('mongoose');
 
 const postSchema = mongoose.Schema({
-	user_id: { type: Number, default: 024 },
-	post_id: Number,
+	user: { type: String, default: 'test' },
 	items: [ String ],
 	type: String,
 	location: { type: String, default: 'noLocation' },

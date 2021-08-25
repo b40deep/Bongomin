@@ -11,6 +11,9 @@ const getPosts = async (req, res) => {
 };
 
 const createPost = async (req, res) => {
+	let payload = req.body;
+	payload.user = req.user.user;
+	// console.log('toMongo___', payload, req.user);
 	try {
 		const newPost = new postModel(req.body);
 		await newPost.save();

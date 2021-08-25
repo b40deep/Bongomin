@@ -9,12 +9,12 @@ const CreatePost = () => {
 	let params = new URLSearchParams(window.location.search);
 	let type = params.get('type') == null ? 'r' : params.get('type');
 	let tempType = type === 'r' ? 'REQUEST' : 'DONATION';
-	console.log(type);
 	let userName = 'SoAndSo';
 	let userLocation = 'Rich people apartments, Muyenga';
 	let [ newInputs, setNewInputs ] = useState([ 'input1' ]);
 	let [ newItems, setNewItems ] = useState([]);
-	let [ postType, setpostType ] = useState([ tempType ]);
+	let [ postType, setpostType ] = useState(tempType);
+	console.log(postType);
 
 	let switchPostType = (e) => {
 		e.preventDefault();
@@ -37,14 +37,28 @@ const CreatePost = () => {
 		console.log(newInputs);
 	};
 	let handleSubmit = () => {
-		axios.post('http://localhost:3001/posts', {
-			items: newItems,
-			post_id: 404,
-			type: 'Request',
-			location: 'Eidinda',
-			time: 'top of the hour'
-		});
-		console.log('data submitted to MongoDB sussessuwy');
+		axios
+			.post(
+				'http://localhost:3001/posts',
+				{
+					items: newItems,
+					post_id: 40444,
+					type: postType,
+					location: 'Eidinda',
+					time: 'top of the hour'
+				},
+				{
+					withCredentials: true,
+					headers: {
+						'Content-Type': 'application/json'
+					}
+				}
+			)
+			.then((res) => {
+				console.log(res);
+				console.log('data submitted to MongoDB sussessuwy');
+			})
+			.catch((err) => console.log('error'));
 	};
 	let newPostItemsList = newInputs.map((post, index) => (
 		<input
