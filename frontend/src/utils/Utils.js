@@ -1,20 +1,27 @@
 const axios = require('axios');
 
+let loggedIn = false;
+
 const saveToken = (token) => {
 	// localStorage.setItem('token', responseObj.token);
 	// localStorage.setItem('expires',);
 	document.cookie = 'token=' + token;
 	// console.log('reached utils ', token);
+	loggedIn = true;
 };
 
 const logout = () => {
-	localStorage.removeItem('token');
+	// localStorage.removeItem('token');
+	document.cookie = 'token= ;expires=Thu, 01 Jan 1970 00:00:00 UTC';
+	loggedIn = false;
 };
 
-const isLoggedIn = () => {};
+const isLoggedIn = () => {
+	return loggedIn;
+};
 
 const isLoggedOut = () => {
-	document.cookie = 'token=';
+	return !isLoggedIn();
 };
 
 const getExpiration = () => {};
@@ -22,8 +29,13 @@ const getExpiration = () => {};
 const checkAccess = (sender) => {
 	console.log('check access from ', sender);
 	// getCookie('token');
-	if (getCookie('token') === undefined || getCookie('token').length < 3) return false;
-	return true;
+	if (getCookie('token') === undefined || getCookie('token').length < 3) {
+		loggedIn = false;
+		return loggedIn;
+	} else {
+		loggedIn = true;
+		return loggedIn;
+	}
 };
 
 const getCookie = (cookieName) => {

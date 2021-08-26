@@ -7,6 +7,8 @@ import axios from 'axios';
 import utils from '../utils/Utils.js';
 
 const Login = () => {
+	if (utils.checkAccess('login') === true) window.location.replace('/');
+
 	let [ userDets, setUserDets ] = useState({ nickname: '', pin: '' });
 
 	const handleInput = (e) => {
